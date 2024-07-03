@@ -28,13 +28,12 @@ def get_vacancies(vacancy_name, search_field="name"):
     else:
         return 'Неизвестная ошибка'
 
-# print(get_vacancies('программист',))
 
 def distionaries(key_field):
     url = "https://api.hh.ru/dictionaries"
     response = requests.get(url, headers=headers)
     return response.json()[key_field]
-# print(get_vacancies('программист' ))
+
 
 
 
