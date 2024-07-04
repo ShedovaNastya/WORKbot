@@ -16,6 +16,52 @@ cursor = conn.cursor()
 # Включаем автоматический коммит для соединения, чтобы каждый запрос автоматически фиксировался в базе данных
 conn.autocommit = True
 
+create_salary_tab_query = """
+CREATE TABLE IF NOT EXISTS salary_tab (
+    id_salary SERIAL PRIMARY KEY, 
+    salary_from INT,
+    salary_to INT,
+    currency TEXT,
+    UNIQUE (salary_from, salary_to, currency)
+);
+"""
+
+create_vacancies_query = """
+CREATE TABLE IF NOT EXISTS vacancies (
+    id_vac SERIAL PRIMARY KEY,
+    title_vacancy TEXT NOT NULL,
+    region TEXT NOT NULL,
+    salary INT NOT NULL REFERENCES salary_tab(id_salary),
+    experience TEXT,
+    employment TEXT,
+    url VARCHAR(255) NOT NULL,
+    UNIQUE (title_vacancy, region, salary, experience, employment, url)
+);
+"""
+
+def create_tables(conn):
+
+    # Устанавливаем соединение и курсор
+    cursor = conn.cursor()
+
+    # Проверяем существование таблиц
+    cursor.execute("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'salary_tab')")
+    salary_tab_exists = cursor.fetchone()[0]
+
+    cursor.execute("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'vacancies')")
+    vacancies_exists = cursor.fetchone()[0]
+
+    # Создаем таблицы, если они не существуют
+    if not salary_tab_exists:
+        cursor.execute(create_salary_tab_query)
+        print("Таблица salary_tab создана")
+
+    if not vacancies_exists:
+        cursor.execute(create_vacancies_query)
+        print("Таблица vacancies создана")
+
+create_tables(conn)
+
 exp_dict = {
     "noExperience": "Нет опыта",
     "between1And3": "От 1 года до 3 лет",
@@ -223,4 +269,4 @@ def get_dictionaries_route():
     return jsonify(result)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

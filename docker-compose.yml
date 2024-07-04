@@ -1,0 +1,40 @@
+version: '0.1'
+
+services:
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 95299392
+      POSTGRES_DB: work
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: ["postgres", "-c", "config_file=/var/lib/postgresql/data/postgresql.conf"]
+
+  flask:
+    build:
+      context: ./flask_service
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgres://postgres:95299392@postgres:5432/work
+    depends_on:
+      - postgres
+    restart: always
+
+  telegram_bot:
+    build:
+      context: ./telegram_bot
+    environment:
+      TELEGRAM_TOKEN: 7418667479:AAHCK0hHCnzZ3pVAz9d-HRE1UvpRLoIQVuA
+      FLASK_URL: http://flask:5000
+    depends_on:
+      - flask
+    restart: always
+
+volumes:
+  pgdata:
