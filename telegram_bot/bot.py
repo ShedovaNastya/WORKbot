@@ -7,7 +7,7 @@ import os
 
 token = os.getenv("TELEGRAM_TOKEN")
 if token is None:
-    token = "7418667479:AAHCK0hHCnzZ3pVAz9d-HRE1UvpRLoIQVuA"
+    token = ##############################################
 number_of_output_vacancies = 5
 
 flask_url = os.getenv("FLASK_URL")
@@ -51,9 +51,6 @@ class vacancies_from_bd:
     def all(cls):
         return cls._array
 
-    
-# class last_idx:
-#     idx = 0
 
 class vacancies_counter:
     """
@@ -154,7 +151,6 @@ def answer(message):
 def select(message):
     if message.text != "Вернуться к выбору действий":
         current_vacancy.value = message.text
-    print(current_vacancy.value)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = types.KeyboardButton("Локальный поиск")
     item2 = types.KeyboardButton("Поиск по апи")
@@ -226,7 +222,7 @@ def button_handler_api_filter_vacancy(message):
         # print('api')
         api_query(message)
     elif user_text == "Изменить фильтр":
-        user_states.set(message.chat.id, "настройк_фильтра")
+        user_states.set(message.chat.id, "настройка_фильтра")
         # print('filter')
         filter(message)
     elif user_text == "Ввести вакансию":
@@ -384,7 +380,7 @@ def api_query(message):
 @bot.message_handler(func=lambda message: user_states.get(message.chat.id) == "фильтр_вакасня_бд")
 def button_handler_filter_vacancy_bd(message):
     if message.text == "Изменить фильтр":
-        user_states.set(message.chat.id, "настройк_фильтра")
+        user_states.set(message.chat.id, "настройка_фильтра")
         filter(message)
     elif message.text == "Ввести вакансию":
         user_states.set(message.chat.id, "ввод_вакансии")
@@ -431,7 +427,6 @@ def button_handler_employment_region_experience_select(message):
         filter_vacancy.region = ""
         user_states.set(message.chat.id, "занятость_регион_опыт_выбор_дальнейших")
     else:
-        # print("залупа")
         user_states.set(message.chat.id, "занятость_регион_опыт_выбор_дальнейших")
         bot.send_message(message.chat.id, "нажмите одну из кнопок")
 
@@ -541,43 +536,3 @@ def select_employment(message):
 
 bot.polling()  
     
-    
-    
-    
-    
-    
-    
-    
-    
-    ##########
-
-#     def check_salary(data):
-#     if data is None:
-#         return "О зарплате нет данных"
-#     for key, value in data.items():
-#         if key == 'to' and value != None:
-#             return(f'до {data[key]} RUR')
-#     return 'Размер зарплаты обсуждается лично'
-
-# def vacancies_to_string(vacancies):
-#     """
-#     Преобразует список вакансий в строку, где каждая вакансия представлена в виде строки,
-#     содержащей значения её полей, разделенных символом новой строки"""
-#     result = [vacancies['name'],vacancies['area'],  vacancies['salary'],  vacancies['experience'],vacancies['employment'],  vacancies['alternate_url']]
- 
-#     return result
-    # if vacancies[2] == 'пидор':
-    #     bot.send_message(message.chat.id, vacancies)
-
-    # else:
-    #     for i in range(20):
-    #         post_preprocess_vacancies = vacancies_to_string(vacancies[i])
-    #         # print(post_preprocess_vacancies)
-    #         post_preprocess_vacancies[1] = post_preprocess_vacancies[1]['name']
-    #         post_preprocess_vacancies[2] = check_salary(post_preprocess_vacancies[2])
-            
-    #         post_preprocess_vacancies[3] = post_preprocess_vacancies[3]['name']
-    #         post_preprocess_vacancies[4] = post_preprocess_vacancies[4]['name']
-    #         vacancies_str = '\n'.join(post_preprocess_vacancies)
-            
-    #         bot.send_message(message.chat.id, vacancies_str)
