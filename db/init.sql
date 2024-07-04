@@ -38,7 +38,7 @@ INSERT INTO salary_tab(salary_from, salary_to, currency) VALUES (80000, 100000, 
 INSERT INTO vacancies (title_vacancy, region, salary, experience, employment, url)VALUES ('t','New York', 1, '3 years', 'Full-time', 'https://example.com/vacancies/1');
 -- Assuming the tables 'salary_tab' and 'vacancies' already exist with appropriate schemas.
 
--- Inserting into salary_tab
+-- Inserting into salary_tab тестовые данные
 INSERT INTO salary_tab(salary_from, salary_to, currency) VALUES (75000, 95000, 'RUR');
 INSERT INTO salary_tab(salary_from, salary_to, currency) VALUES (82000, 102000, 'RUR');
 INSERT INTO salary_tab(salary_from, salary_to, currency) VALUES (78000, 98000, 'RUR');
